@@ -11,10 +11,12 @@ from utils import draw_bbox_on_img
 
 # img = cv2.imread("images/2023-03-08 082312.png")
 # img = cv2.imread("images/2023-03-08 104749.png")
-img = cv2.imread("images/frame_00010.jpg")
+# img = cv2.imread("images/frame_00010.jpg")
 
-image_dir = "./images/standing_a_person"
-target_dir = "./images/standing_a_person_bboxed"
+# image_dir = "./images/standing_a_person"
+image_dir = "./images/standing_people"
+# target_dir = "./images/standing_a_person_bboxed"
+target_dir = "./images/standing_people_bboxed"
 
 if not os.path.isdir(target_dir):
     os.makedirs(target_dir, exist_ok=True)
@@ -32,4 +34,4 @@ for fname in os.listdir(image_dir):
 # save to gif
 path = [f"{i}" for i in os.listdir(target_dir)]
 images = [Image.open(f"{target_dir}/{i}") for i in path]
-imageio.mimsave(f"./annotation.gif", images)
+imageio.mimsave(f"./annotation_2.gif", images)
