@@ -57,8 +57,8 @@ contours_dict = []
 
 for contour in contours:
     x, y, w, h = cv2.boundingRect(contour)
-    cv2.rectangle(temp_result, pt1=(x, y), pt2=(x + w, y + h),
-                  color=(255, 255, 255), thickness=2)
+    # cv2.rectangle(temp_result, pt1=(x, y), pt2=(x + w, y + h),
+    #               color=(255, 255, 255), thickness=1)
 
     contours_dict.append({
         'contour': contour,
@@ -70,6 +70,19 @@ for contour in contours:
         'cy': y + (h / 2)
     })
 
+
+## filtering small contours (< 20 pixels)
+possible_contours = []
+pixel_thresh = 25
+for contour in contours_dict:
+    if contour["w"] > pixel_thresh or contour["h"] > pixel_thresh:
+        possible_contours.append(contour)
+
+
+for d in possible_contours:
+    cv2.rectangle(morph, pt1=(d['x'], d['y']), pt2=(d['x']+d['w'], d['y']+d['h']),
+                  color=(255, 255, 255), thickness=1)
+
 plt.subplot(224)
-plt.imshow(temp_result, cmap='gray')
+plt.imshow(morph, cmap='gray')
 plt.show()
