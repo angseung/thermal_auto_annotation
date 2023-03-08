@@ -443,7 +443,7 @@ def label_voc2yolo(label_voc: np.ndarray, h: int, w: int) -> np.ndarray:
     return label_yolo
 
 
-def draw_bbox_on_img(img: np.ndarray, label: np.ndarray) -> np.ndarray:
+def draw_bbox_on_img(img: np.ndarray, label: np.ndarray, color: Tuple[int, int, int] = (0, 0, 0)) -> np.ndarray:
     if label.dtype != np.uint8:
         label = label_yolo2voc(label, *(img.shape[:2]))
 
@@ -452,7 +452,7 @@ def draw_bbox_on_img(img: np.ndarray, label: np.ndarray) -> np.ndarray:
 
     for i in range(label.shape[0]):
         pos = tuple(label[i][1:].tolist())
-        draw.rectangle(pos, outline=(0, 0, 0), width=3)
+        draw.rectangle(pos, outline=color, width=3)
 
     return np.asarray(img)
 

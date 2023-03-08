@@ -10,6 +10,7 @@ def annotation(
     binary_thresh: int = 100,
     output_type: str = "yolo",
     mode: Optional[str] = "normal",
+    morp_iters: Optional[int] = 3,
     draw_plot: Optional[bool] = False,
 ) -> Union[np.ndarray, Dict, List]:
     height, width, channel = img.shape
@@ -41,7 +42,12 @@ def annotation(
         raise ValueError
 
     mask = np.ones((5, 17), dtype=np.uint8)
-    morph = cv2.morphologyEx(img_thresh, cv2.MORPH_CLOSE, mask, iterations=3)
+
+    if morp_iters:
+        morph = cv2.morphologyEx(img_thresh, cv2.MORPH_CLOSE, mask, iterations=morp_iters)
+
+    else:
+        morph = img_thresh.copy()
 
     if draw_plot:
         plt.figure(figsize=(12, 10))
@@ -75,9 +81,12 @@ def annotation(
 
     # filtering small contours (any < pixel_thresh pixels)
     possible_contours = []
-    pixel_thresh = 25
+    pixel_thresh = 15
+    ratio_thresh = 1.8
+
     for contour in contours_dict:
-        if contour["w"] > pixel_thresh or contour["h"] > pixel_thresh:
+        ratio = contour["w"] / contour["h"] if contour["w"] > contour["h"] else contour["h"] / contour["w"]
+        if contour["w"] > pixel_thresh and contour["h"] > pixel_thresh and ratio > ratio_thresh:
             possible_contours.append(contour)
 
     for d in possible_contours:
