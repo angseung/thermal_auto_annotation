@@ -85,8 +85,9 @@ def annotation(
     ratio_thresh = 1.8
 
     for contour in contours_dict:
-        ratio = contour["w"] / contour["h"] if contour["w"] > contour["h"] else contour["h"] / contour["w"]
-        if contour["w"] > pixel_thresh and contour["h"] > pixel_thresh and ratio > ratio_thresh:
+        # ratio = contour["w"] / contour["h"] if contour["w"] > contour["h"] else contour["h"] / contour["w"]
+        # if contour["w"] > pixel_thresh and contour["h"] > pixel_thresh and ratio > ratio_thresh:
+        if contour["h"] > 30 and contour["w"] > 20:
             possible_contours.append(contour)
 
     for d in possible_contours:

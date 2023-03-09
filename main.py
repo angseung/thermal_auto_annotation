@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import imageio
 from auto_annotation import annotation
-from utils import draw_bbox_on_img
+from utils import draw_bbox_on_img, write_label
 
 # plt.style.use('dark_background')
 
@@ -15,23 +15,30 @@ from utils import draw_bbox_on_img
 
 # image_dir = "./images/standing_a_person"
 image_dir = "./images/standing_people"
-# target_dir = "./images/standing_a_person_bboxed"
-target_dir = "./images/standing_people_bboxed"
+# image_dir = "./images/lie"
+# target_dir = "./images/standing_a_person_labeled"
+target_dir = "./images/standing_people_labeled"
+# target_dir = "./images/lie_labeled"
 
 if not os.path.isdir(target_dir):
     os.makedirs(target_dir, exist_ok=True)
+
+if not os.path.isdir(f"{target_dir}/labels"):
+    os.makedirs(f"{target_dir}/labels")
 
 for fname in os.listdir(image_dir):
     img = cv2.imread(f"{image_dir}/{fname}")
     bboxes = annotation(img, binary_thresh=100, mode="normal", output_type="yolo", draw_plot=False, morp_iters=0)
     bboxed_img = draw_bbox_on_img(img, bboxes, color=(255, 255, 255))
     cv2.imwrite(f"{target_dir}/{fname}", bboxed_img)
+    write_label(target_dir=f"{target_dir}/labels", fname=fname, bboxes=bboxes)
+
 
 # fig_fin = plt.figure()
 # plt.imshow(bboxed_img)
 # plt.show()
 
 # save to gif
-path = [f"{i}" for i in os.listdir(target_dir)]
-images = [Image.open(f"{target_dir}/{i}") for i in path]
-imageio.mimsave(f"./annotation_2.gif", images)
+# path = [f"{i}" for i in os.listdir(target_dir)]
+# images = [Image.open(f"{target_dir}/{i}") for i in path]
+# imageio.mimsave(f"./annotation_2.gif", images)

@@ -2,7 +2,8 @@ import os
 import cv2
 
 # video_file_name = "standing_a_person"
-video_file_name = "standing_people"
+# video_file_name = "standing_people"
+video_file_name = "long_take"
 # video_file_name = "lie"
 capture = cv2.VideoCapture(f"videos/{video_file_name}.mkv")
 frameNr = 0
@@ -17,9 +18,9 @@ w, h = 262, 202
 while True:
     success, frame = capture.read()
     if success:
-        if frameNr % 10 == 0:
+        if frameNr % 5 == 0:
             frame = frame[ytl : ytl + h, xtl : xtl + w, :]
-            cv2.imwrite(f"{target_dir}/frame_%05d.jpg" % frameNr, frame)
+            cv2.imwrite(f"{target_dir}/frame_%05d_1.jpg" % frameNr, frame)
 
     else:
         break
