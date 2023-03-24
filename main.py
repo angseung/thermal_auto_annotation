@@ -35,8 +35,8 @@ for fname in os.listdir(image_dir):
 
     if bboxes.shape[0] == 3:
         bboxed_img = draw_bbox_on_img(img, bboxes, color=(255, 255, 255))
-        # cv2.imwrite(f"{target_dir}/{fname}", bboxed_img)
-        cv2.imwrite(f"{target_dir}/{fname}", img)
+        cv2.imwrite(f"{target_dir}/{fname}", bboxed_img)
+        # cv2.imwrite(f"{target_dir}/{fname}", img)
         write_label(target_dir=f"{target_dir}/labels", fname=fname, bboxes=bboxes)
 
 
